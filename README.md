@@ -1,2 +1,2 @@
-# BIOS2_DataViz
+# BIOS2 Data Visualization Training
  
