@@ -1,10 +1,11 @@
-# Script to dump a bunch of plot types for the presentation
+# Script to dump a bunch test plot examples for the Data Visualization training
 # based on Coffee & Code dataset
+# from https://www.kaggle.com/devready/coffee-and-code/data
 
 # load packages
 library(ggplot2)
 library(dplyr)
-library(magritte)
+library(magrittr)
 
 # set ggplot theme
 theme_set(theme_classic())
@@ -15,7 +16,7 @@ df$CoffeeCupsPerDay <- as.character(df$CoffeeCupsPerDay)
 # plot of all variable pairs (super difficult to interpret/understand)
 plot(df)
 
-# Boxplot demo
+# Visualizing honestly - different ways to show raw data & uncertainty
 
 # basic scatter plot - not interpretable, raw information
 ggplot(df) +
