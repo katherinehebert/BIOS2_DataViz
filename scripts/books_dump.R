@@ -71,6 +71,6 @@ ggplot(df) +
   scale_color_distiller(palette = "Purples", 
                         direction = 1,
                         limits = c(1,5)) # show full range of possible values!
-
-
+ggsave("figures/bubbleplot_books_4dimensions.png", 
+       device = "png", width = 20, height = 15, units = "cm", dpi = "retina")
              
