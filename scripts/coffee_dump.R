@@ -47,15 +47,34 @@ ggsave("figures/bubbleplot_coffee_4dimensions.png",
 # Visualizing honestly - Boxplot example ----
 # different ways to show raw data & uncertainty
 
-# basic scatter plot - not interpretable, raw information
+# set labels to be used in all plots
+boxplot_labels <- labs(title = "Does coffee help programmers code?",
+                       x = "Coding without coffee", 
+                       y = "Coding time (hours/day") 
+
+# this variable (CodingWithoutCoffee) is negative, which is harder to understand
+# (i.e. "No" means they drink coffee...)
+# so, let's transform it into a better variable to use for plots
+df$CodingWithCoffee <- gsub("No", "Coffee", df$CodingWithoutCoffee)
+df$CodingWithCoffee <- gsub("Yes", "No coffee", df$CodingWithCoffee)
+# convert to factor and set levels so they show up in a logical order
+df$CodingWithCoffee <- factor(df$CodingWithCoffee,
+                              levels = c("No coffee", "Sometimes", "Coffee"))
+
+# Basic scatter plot - not interpretable, raw information
 ggplot(df) +
-  geom_point(aes(x = CodingWithoutCoffee, y = CodingHours)) +
-  labs(x = "Coding without coffee", y = "Coding time (hours/day")
+  # jitter introduces some slight noise to space out data points, which helps to
+  # show overlapping points
+  geom_jitter(aes(x = CodingWithCoffee, 
+                  y = CodingHours), 
+              alpha = .5, width = .05) +
+  boxplot_labels
 
 # basic boxplot
 ggplot(df) +
-  geom_boxplot(aes(x = CodingWithoutCoffee, y = CodingHours)) +
-  labs(x = "Coding without coffee", y = "Coding time (hours/day") 
+  geom_boxplot(aes(x = CodingWithoutCoffee, 
+                   y = CodingHours)) +
+  boxplot_labels 
 
 # what if we take the mean, and plot it with uncertainty measurements?
 df_mean <- group_by(df, CodingWithoutCoffee) %>%
@@ -65,18 +84,22 @@ df_mean <- group_by(df, CodingWithoutCoffee) %>%
 
 # violin plot with mean and error bars
 ggplot() +
-  geom_violin(data = df, aes(x = CodingWithoutCoffee, y = CodingHours)) +
+  geom_violin(data = df, aes(x = CodingWithoutCoffee, 
+                             y = CodingHours)) +
   geom_linerange(data = df_mean,
                  aes(x = CodingWithoutCoffee, 
                      ymin = mean_codinghours - se_codinghours,
                      ymax = mean_codinghours + se_codinghours)) +
-  geom_point(data = df_mean, aes(x = CodingWithoutCoffee, y = mean_codinghours), size = 1.2) +
-  labs(x = "Coding without coffee", y = "Coding time (hours/day")
+  geom_point(data = df_mean, aes(x = CodingWithoutCoffee, 
+                                 y = mean_codinghours), size = 1.2) +
+  boxplot_labels
 
 # violin plot with jittered raw data
 ggplot() +
-  geom_violin(data = df, aes(x = CodingWithoutCoffee, y = CodingHours)) +
-  geom_jitter(data = df, aes(x = CodingWithoutCoffee, y = CodingHours),
+  geom_violin(data = df, aes(x = CodingWithoutCoffee, 
+                             y = CodingHours)) +
+  geom_jitter(data = df, aes(x = CodingWithoutCoffee, 
+                             y = CodingHours),
               alpha = .2, width = .05) +
   geom_linerange(data = df_mean,
                  aes(x = CodingWithoutCoffee, 
@@ -85,7 +108,7 @@ ggplot() +
   geom_point(data = df_mean, 
              aes(x = CodingWithoutCoffee, 
                  y = mean_codinghours), size = 3) +
-  labs(x = "Coding without coffee", y = "Coding time (hours/day")
+  boxplot_labels
 
 # standard error vs. standard deviation  (colours are to be changed)
 ggplot(df_mean) +
@@ -93,17 +116,21 @@ ggplot(df_mean) +
                     ymin = mean_codinghours - 1.96*sd_codinghours,
                     ymax = mean_codinghours + 1.96*sd_codinghours), col = "dodgerblue") +
   geom_point(aes(x = CodingWithoutCoffee, y = mean_codinghours), size = 3) +
-  labs(x = "Coding without coffee", y = "Coding time (hours/day")
+  boxplot_labels
 # plotting both error bars for comparison
 ggplot(df_mean) +
   geom_errorbar(aes(x = CodingWithoutCoffee, 
                     ymin = mean_codinghours - 1.96*sd_codinghours,
-                    ymax = mean_codinghours + 1.96*sd_codinghours), col = "dodgerblue") +
+                    ymax = mean_codinghours + 1.96*sd_codinghours), 
+                col = "dodgerblue") +
   geom_errorbar(aes(x = CodingWithoutCoffee, 
                     ymin = mean_codinghours - se_codinghours,
-                    ymax = mean_codinghours + se_codinghours), col = "magenta") +
-  geom_point(aes(x = CodingWithoutCoffee, y = mean_codinghours), size = 3) +
-  labs(x = "Coding without coffee", y = "Coding time (hours/day")
+                    ymax = mean_codinghours + se_codinghours), 
+                col = "magenta") +
+  geom_point(aes(x = CodingWithoutCoffee, 
+                 y = mean_codinghours), 
+             size = 3) +
+  boxplot_labels
 
 
 
