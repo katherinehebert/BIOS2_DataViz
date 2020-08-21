@@ -37,6 +37,12 @@ Covers the principles that make standard plot designs work, show how they can be
 [From Static to Interactive: Transforming Data Visualization to Improve Transparency](https://doi.org/10.1371/journal.pbio.1002484)<br>
 Weissgerber TL, Garovic VD, Savic M, Winham SJ, Milic NM (2016) designed an interactive line graph that demonstrates how dynamic alternatives to static graphics for small sample size studies allow for additional exploration of empirical datasets. This [simple, free, web-based tool](http://statistika.mfub.bg.ac.rs/interactive-graph/) demonstrates the overall concept and may promote widespread use of interactive graphics.
 
+[Data visualization: ambiguity as a fellow traveler](https://doi.org/10.1038/nmeth.2530)<br>
+Research that is being done about how to visualize uncertainty in data visualizations.
+Marx, V. Nat Methods 10, 613–615 (2013). [https://doi.org/10.1038/nmeth.2530](https://doi.org/10.1038/nmeth.2530)
+
+
+
 ***
 
 # Design principles
@@ -132,6 +138,9 @@ Vector images of living organisms. This is great for ecologists who want to add 
 
 [Information is Beautiful](https://informationisbeautiful.net/visualizations/)<br>
 Collection of beautiful original visualizations about a variety of topics!
+
+[TidyTuesday](https://github.com/rfordatascience/tidytuesday)
+A weekly data project aimed at the R ecosystem, where people wrangle and visualize data in loads of creative ways. Browse what people have created ([#TidyTuesday](https://twitter.com/search?q=%23TidyTuesday) on Twitter is great too!), and the visualizations that have inspired each week's theme.
 
 [Wind currents on Earth](https://earth.nullschool.net/)<br>
 Dynamic and interactive map of wind currents on Earth.
