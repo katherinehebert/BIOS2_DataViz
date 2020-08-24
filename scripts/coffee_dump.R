@@ -6,10 +6,12 @@
 library(ggplot2)
 library(dplyr)
 library(magrittr)
+library(ggridges)
 
 # set ggplot theme
 theme_set(theme_classic() +
-            theme(axis.title = element_text(size = 12, face = "bold"),
+            theme(axis.title = element_text(size = 11, face = "bold"),
+                  axis.text = element_text(size = 11),
                   plot.title = element_text(size = 13, face = "bold"),
                   legend.title = element_text(size = 11, face = "bold"),
                   legend.text = element_text(size = 10)))
@@ -50,16 +52,16 @@ ggsave("figures/bubbleplot_coffee_4dimensions.png",
 # set labels to be used in all plots
 boxplot_labels <- labs(title = "Does coffee help programmers code?",
                        x = "Coding without coffee", 
-                       y = "Coding time (hours/day") 
+                       y = "Coding time (hours/day)") 
 
 # this variable (CodingWithoutCoffee) is negative, which is harder to understand
 # (i.e. "No" means they drink coffee...)
 # so, let's transform it into a better variable to use for plots
-df$CodingWithCoffee <- gsub("No", "Coffee", df$CodingWithoutCoffee)
-df$CodingWithCoffee <- gsub("Yes", "No coffee", df$CodingWithCoffee)
+df$CodingWithCoffee <- gsub("No", "Always", df$CodingWithoutCoffee)
+df$CodingWithCoffee <- gsub("Yes", "Never", df$CodingWithCoffee)
 # convert to factor and set levels so they show up in a logical order
 df$CodingWithCoffee <- factor(df$CodingWithCoffee,
-                              levels = c("No coffee", "Sometimes", "Coffee"))
+                              levels = c("Never", "Sometimes", "Always"))
 
 # Basic scatter plot - not interpretable, raw information
 ggplot(df) +
@@ -110,28 +112,28 @@ ggplot() +
                  y = mean_codinghours), size = 3) +
   boxplot_labels
 
+
+
 # standard error vs. standard deviation  (colours are to be changed)
 ggplot(df_mean) +
   geom_errorbar(aes(x = CodingWithoutCoffee, 
                     ymin = mean_codinghours - 1.96*sd_codinghours,
-                    ymax = mean_codinghours + 1.96*sd_codinghours), col = "dodgerblue") +
+                    ymax = mean_codinghours + 1.96*sd_codinghours), 
+                col = "dodgerblue", width = .2) +
   geom_point(aes(x = CodingWithoutCoffee, y = mean_codinghours), size = 3) +
   boxplot_labels
+
 # plotting both error bars for comparison
 ggplot(df_mean) +
   geom_errorbar(aes(x = CodingWithoutCoffee, 
                     ymin = mean_codinghours - 1.96*sd_codinghours,
                     ymax = mean_codinghours + 1.96*sd_codinghours), 
-                col = "dodgerblue") +
+                col = "dodgerblue", width = .2) +
   geom_errorbar(aes(x = CodingWithoutCoffee, 
                     ymin = mean_codinghours - se_codinghours,
                     ymax = mean_codinghours + se_codinghours), 
-                col = "magenta") +
+                col = "magenta", width = .2) +
   geom_point(aes(x = CodingWithoutCoffee, 
                  y = mean_codinghours), 
              size = 3) +
   boxplot_labels
-
-
-
-
