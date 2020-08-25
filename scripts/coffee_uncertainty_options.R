@@ -3,12 +3,12 @@
 
 # set-up & data manipulation ---------------------------------------------------
 
-
 # load packages
-library(ggplot2)
-library(dplyr)
-library(magrittr)
-library(ggridges)
+library(ggplot2) # for plots, built layer by layer
+library(dplyr) # for data manipulation
+library(magrittr) # for piping
+library(ggridges) # for density ridge plots
+library(patchwork) # great package for "patching" plots together!
 
 # set ggplot theme
 theme_set(theme_classic() +
@@ -142,3 +142,22 @@ ggplot(df) +
   theme(axis.title.y = element_text(angle=0, hjust = 1, vjust = .9, 
                                     margin = margin(t = 0, r = -50, b = 0, l = 0)))
 ggsave("figures/coffee_density_ridges.png", width = 5, height = 3, units = "in")
+
+# 6. Jitter vs. Rug plot ------------------------------------------------------------------
+
+jitterplot <- ggplot(df, aes(x = CoffeeCupsPerDay, y = CodingHours)) +
+  geom_jitter(alpha = .2) +
+  geom_smooth(fill = error_cols[1], col = "black", method = lm, lwd = .7) +
+  coffee_labels + ylim(c(0,11)) + labs(x = "Cups of coffee (per day)")
+
+rugplot <- ggplot(df, aes(x = CoffeeCupsPerDay, y = CodingHours)) +
+  geom_smooth(fill = error_cols[1], col = "black", method = lm, lwd = .7) +
+  geom_rug(position="jitter", alpha = .7) + ylim(c(0,11)) +
+  coffee_labels + labs(x = "Cups of coffee (per day)")
+
+# patch the two plots together
+jitterplot + rugplot
+ggsave("figures/coffee_jitter_vs_rugplot.png", width = 10, height = 4, units = "in")
+
+
+
