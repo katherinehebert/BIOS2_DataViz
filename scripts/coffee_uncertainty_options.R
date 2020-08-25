@@ -23,20 +23,22 @@ df <- read.csv("data/coffee_code.csv")
 
 # set labels to be used in all plots
 coffee_labels <- labs(title = "Does coffee help programmers code?",
-                      x = "Coffee consumption \nwhile coding", 
-                      y = "Coding time \n(hours/day)") 
+                      x = "Coffee while coding", 
+                      y = "Time spent coding \n(hours/day)") 
 
 # the variable CodingWithoutCoffee is negative, which is harder to understand
 # (i.e. "No" means they drink coffee...). So, let's transform it into a more 
 # intuitive variable!
-df$CodingWithCoffee <- gsub("No", "Always", df$CodingWithoutCoffee)
-df$CodingWithCoffee <- gsub("Yes", "Never", df$CodingWithCoffee)
+df$CodingWithCoffee <- gsub("No", "Usually", df$CodingWithoutCoffee)
+df$CodingWithCoffee <- gsub("Yes", "Rarely\n or never", df$CodingWithCoffee)
 # convert to factor and set levels so they show up in a logical order
 df$CodingWithCoffee <- factor(df$CodingWithCoffee,
-                              levels = c("Never", "Sometimes", "Always"))
+                              levels = c("Rarely\n or never", 
+                                         "Sometimes", 
+                                         "Usually"))
 
 # calculate summary statistics for the variable of choice
-df_summary <- group_by(df, CodingWithoutCoffee) %>%
+df_summary <- group_by(df, CodingWithCoffee) %>%
   summarise(
     # mean
     mean_codinghours = mean(CodingHours), 
@@ -49,11 +51,11 @@ df_summary <- group_by(df, CodingWithoutCoffee) %>%
 # 1. Error bars (standard error) -----------------------------------------------
 
 ggplot(df_summary) +
-  geom_errorbar(aes(x = CodingWithoutCoffee, 
+  geom_errorbar(aes(x = CodingWithCoffee, 
                     ymin = mean_codinghours - se_codinghours,
                     ymax = mean_codinghours + se_codinghours), 
                 width = .2) +
-  geom_point(aes(x = CodingWithoutCoffee, y = mean_codinghours), 
+  geom_point(aes(x = CodingWithCoffee, y = mean_codinghours), 
              size = 3) +
   coffee_labels + ylim(0,10)
 ggsave("figures/coffee_errorbars.png", width = 5, height = 3, units = "in")
@@ -61,16 +63,71 @@ ggsave("figures/coffee_errorbars.png", width = 5, height = 3, units = "in")
 # 2. Boxplot -------------------------------------------------------------------
 
 ggplot(df) +
-  geom_boxplot(aes(x = CodingWithoutCoffee, y = CodingHours)) +
+  geom_boxplot(aes(x = CodingWithCoffee, y = CodingHours)) +
   coffee_labels
 ggsave("figures/coffee_boxplot.png", width = 5, height = 3, units = "in")
 
 
-# 3. Jitter plot with violin ---------------------------------------------------
+# 3. Error bar demonstration ---------------------------------------------------
+
+# get some nice colours from viridis (magma)
+error_cols <- viridis::viridis_pal(option = "magma")(5)[2:4]
+# set labels to be used in the palette
+error_labels = c("standard deviation","95% confidence interval","standard error")
+
+ggplot(df_summary) +
+  # show the raw data
+  geom_jitter(data = df, aes(x = CodingWithCoffee, 
+                             y = CodingHours),
+              alpha = .5, width = .05, col = "grey") +
+  # standard deviation
+  geom_errorbar(aes(x = CodingWithCoffee, 
+                    ymin = mean_codinghours - sd_codinghours,
+                    ymax = mean_codinghours + sd_codinghours,
+                    col = "SD"), width = .2, lwd = 1) +
+  # 95% confidence interval
+  geom_errorbar(aes(x = CodingWithCoffee, 
+                    ymin = mean_codinghours - 1.96*se_codinghours,
+                    ymax = mean_codinghours + 1.96*se_codinghours, 
+                    col = "CI"), width = .2, lwd = 1) +
+  # standard error
+  geom_errorbar(aes(x = CodingWithCoffee, 
+                    ymin = mean_codinghours - se_codinghours,
+                    ymax = mean_codinghours + se_codinghours, 
+                    col = "SE"), width = .2, lwd = 1) +
+  geom_point(aes(x = CodingWithCoffee, y = mean_codinghours), 
+             size = 3) +
+  coffee_labels + ylim(c(0,11)) +
+  # manual palette/legend set-up!
+  scale_colour_manual(name = "Uncertainty metric", 
+                      values = c(SD = error_cols[1], 
+                                 CI = error_cols[2], 
+                                 SE = error_cols[3]),
+                      labels = error_labels) +
+  theme(legend.position = "top")
+ggsave("figures/coffee_bars_demo.png", width = 7, height = 5, units = "in")
 
 
+# 4. Jitter plot with violin ---------------------------------------------------
 
-# 4. Density ridge plot --------------------------------------------------------
+ggplot() +
+  geom_jitter(data = df, aes(x = CodingWithCoffee, 
+                             y = CodingHours),
+              alpha = .5, width = .05, col = "grey") +
+  geom_violin(data = df, aes(x = CodingWithCoffee, 
+                             y = CodingHours), alpha = 0) +
+  geom_linerange(data = df_summary,
+                 aes(x = CodingWithCoffee, 
+                     ymin = mean_codinghours - se_codinghours,
+                     ymax = mean_codinghours + se_codinghours)) +
+  geom_point(data = df_summary, 
+             aes(x = CodingWithCoffee, 
+                 y = mean_codinghours), size = 3) +
+  coffee_labels
+ggsave("figures/coffee_violin_jitter.png", width = 5, height = 3, units = "in")
+
+
+# 5. Density ridge plot --------------------------------------------------------
 
 ggplot(df) + 
   aes(y = CodingWithCoffee, x = CodingHours, fill = stat(x)) +
@@ -81,5 +138,7 @@ ggplot(df) +
   theme(legend.position = "none") +
   labs(title = coffee_labels$title, 
        x = coffee_labels$y, 
-       y = coffee_labels$x)
+       y = "Coffee \nwhile coding") + 
+  theme(axis.title.y = element_text(angle=0, hjust = 1, vjust = .9, 
+                                    margin = margin(t = 0, r = -50, b = 0, l = 0)))
 ggsave("figures/coffee_density_ridges.png", width = 5, height = 3, units = "in")
