@@ -98,5 +98,3 @@ p <- na.omit(penguins) %>%
 p <- ggplotly(p)
 setwd("figures")
 htmlwidgets::saveWidget(as_widget(p), "penguins_interactive.html")
-
-
