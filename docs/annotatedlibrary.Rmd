@@ -1,7 +1,8 @@
 ---
-title: "BIOS² Data Visualization: Resource library"
+title: "DataViz resource library"
+subtitle: "from the BIOS² Data Visualization Training"
 author: "Prepared by Alex Arkilanian & Katherine Hébert"
-date: "August 24-25, 2020"
+date: "September 21-22, 2020"
 output: 
   html_document:
     toc: true
@@ -97,14 +98,34 @@ CARTOColors are a set of custom color palettes built on top of well-known standa
 [The R Graph Gallery](https://www.r-graph-gallery.com/index.html)<br>
 A collection of charts made with the R programming language. Hundreds of charts are displayed in several sections, always with their reproducible code available. The gallery makes a focus on the tidyverse and ggplot2.
 
-[ggplot2 Quick Reference](http://r-statistics.co/ggplot2-cheatsheet.html)<br>
+### Base R
+
+[Cheatsheet: Margins in base R](https://www.r-graph-gallery.com/74-margin-and-oma-cheatsheet)<br>
+Edit your margins in base R to accommodate axis titles, legends, captions, etc.!
+
+[Customizing tick marks in base R](https://insileco.github.io/2020/08/29/custom-tick-marks-with-rs-base-graphics-system/)<br>
+Seems like a simple thing, but it can be so frustrating! This is a great post about customizing tick marks with base plot in R.
+
+[Animations in R (for time series)](https://insileco.github.io/2017/07/05/animations-in-r-time-series-of-erythemal-irradiance-in-the-st.-lawrence/)<br>
+If you want to use animations but don't want to use ggplot2, this demo might help you!
+
+### ggplot2
+
+[Cheatsheet: ggplot2](http://r-statistics.co/ggplot2-cheatsheet.html)<br>
 Cheatsheet for ggplot2 in R - anything you want to do is probably covered here!
+
+[Coding Club tutorial: Data Viz Part 1 - Beautiful and informative data visualization](https://ourcodingclub.github.io/tutorials/datavis/)<br>
+Great tutorial demonstrating how to customize titles, subtitles, captions, labels, colour palettes, and themes in ggplot2.
+
+[Coding Club tutorial: Data Viz Part 2 - Customizing your figures](https://ourcodingclub.github.io/tutorials/data-vis-2/)<br>
+Great tutorial demonstrating how to customize titles, subtitles, captions, labels, colour palettes, and themes in ggplot2.
 
 [ggplot flipbook](https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html#1)<br>
 A flipbook-style demonstration that builds and customizes plots line by line using ggplot in R.
 
 [gganimate: A Grammar of Animated Graphics](https://github.com/thomasp85/gganimate)<br>
 Package to create animated graphics in R (with ggplot2).
+
 
 ## Python
 
@@ -131,6 +152,10 @@ Web editor to create interactive plots with plotly. You can download the image a
 
 [PhyloPic](http://phylopic.org/)<br>
 Vector images of living organisms. This is great for ecologists who want to add silhouettes of their organisms onto their plots - search anything, and you will likely find it!
+
+[Add icons on your R plot](https://insileco.github.io/2017/05/23/add-icons-on-your-r-plot/)<br>
+Add special icons to your plot as a great way to customize it, and save space with labels!
+
 
 ***
 
