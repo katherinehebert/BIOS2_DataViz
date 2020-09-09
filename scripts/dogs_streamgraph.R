@@ -33,4 +33,4 @@ pp <- streamgraph(df,
                   height="600px", width="1000px") %>%
   sg_legend(show=TRUE, label="names: ") %>%
   sg_fill_manual(values = cols) 
-saveWidget(pp, file=paste0( getwd(), "/figures/dogs_streamgraph.html"))
+saveWidget(pp, file=paste0(getwd(), "/figures/dogs_streamgraph.html"))
