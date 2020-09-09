@@ -5,12 +5,6 @@ This repository contains materials for the BIOS² Data Visualization Training de
 
 ## Training material
 
-[Examples](https://katherinehebert.github.io/BIOS2_DataViz/)
-
-## Reference materials
-
+[Example figures (interactive)](https://katherinehebert.github.io/BIOS2_DataViz/)
 [Annotated resource library](https://github.com/katherinehebert/BIOS2_DataViz/tree/master/docs)<br>
-
-## Code
-
 [Scripts to create example figures](https://github.com/katherinehebert/BIOS2_DataViz/tree/master/scripts)<br>
