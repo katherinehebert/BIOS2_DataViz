@@ -1,8 +1,11 @@
 # BIOS² Data Visualization Training
 
-Welcome!<br>
-<br>
+Welcome!<br><br>
 This repository contains materials for the BIOS² Data Visualization Training developed and delivered by Alex Arkilanian and Katherine Hébert.
+
+## Training material
+
+[Examples](https://katherinehebert.github.io/BIOS2_DataViz/)
 
 ## Reference materials
 
