@@ -4,17 +4,9 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Welcome!<br>
-<br>
-This page contains materials for the BIOS² Data Visualization Training developed and delivered by Alex Arkilanian and Katherine Hébert.
-
-## Interactive example
-
-```{r interactive-setup, echo=FALSE, message=FALSE, warning=FALSE}
-# set-up & data manipulation ---------------------------------------------------
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+## run this to knit html when ready ##
+#rmarkdown::render('docs/index.Rmd', output_file = 'index.html')
 
 # load packages
 library(ggplot2) # for plots, built layer by layer
@@ -29,7 +21,58 @@ theme_set(theme_classic() +
                   plot.title = element_text(size = 13, face = "bold"),
                   legend.title = element_text(size = 11, face = "bold"),
                   legend.text = element_text(size = 10)))
+```
 
+## Welcome!
+
+<br>
+This page contains materials for the BIOS² Data Visualization Training developed and delivered by Alex Arkilanian and Katherine Hébert.
+
+## Streamgraph
+
+```{r streamgraph-setup}
+# Script to make a streamgraph of the top 10 most popular dog breeds in 
+# New York City from 1999 to 2015
+
+# load libraries
+library(magrittr) # piping
+library(lubridate) # dealing with dates
+library(dplyr) # data manipulation
+library(streamgraph) #devtools::install_github("hrbrmstr/streamgraph")
+library(htmlwidgets) # to save the widget!
+
+# load the dataset
+# more information about this dataset can be found here:
+# https://www.kaggle.com/smithaachar/nyc-dog-licensing-clean
+nyc_dogs <- read.csv("data/nyc_dogs.csv")
+
+# convert birth year to date format (and keep only the year)
+nyc_dogs$AnimalBirthYear <- mdy_hms(nyc_dogs$AnimalBirthMonth) %>% year()
+
+# identify 10 most common dogs
+topdogs <- nyc_dogs %>% count(BreedName) 
+topdogs <- topdogs[order(topdogs$n, decreasing = TRUE),]
+# keep 10 most common breeds (and remove last year of data which is incomplete)
+df <- filter(nyc_dogs, BreedName %in% topdogs$BreedName[2:11] & AnimalBirthYear < 2016) %>% 
+  group_by(AnimalBirthYear) %>% 
+  count(BreedName) %>% ungroup()
+
+# get some nice colours from viridis (magma)
+cols <- viridis::viridis_pal(option = "magma")(length(unique(df$BreedName)))
+
+# make streamgraph!
+streamgraph(df, 
+                  key = BreedName, value = n, date = AnimalBirthYear, 
+                  height="600px", width="1000px") %>%
+  sg_legend(show=TRUE, label="names: ") %>%
+  sg_fill_manual(values = cols) 
+```
+
+
+
+## Interactive plot
+
+```{r interactive-setup}
 # import data
 # more info on this dataset: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-07-28/readme.md
 penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv')
@@ -38,7 +81,7 @@ penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/t
 sp_cols <- viridis::viridis_pal(option = "magma")(5)[2:4]
 ```
 
-```{r interactive-plot, echo = FALSE, warning = FALSE}
+```{r interactive-plot}
 p <- na.omit(penguins) %>%
   ggplot(aes(y = bill_length_mm, 
              x = bill_depth_mm, 
@@ -48,7 +91,5 @@ p <- na.omit(penguins) %>%
   labs(x = "Bill depth (mm)", y = "Bill length (mm)", col = "Body mass (g)") +
   scale_color_viridis_c(option = "magma", end = .9, direction = -1) +
   theme_linedraw() + theme(panel.grid = element_blank()) # making the panels prettier
-p <- ggplotly(p)
-p
+ggplotly(p)
 ```
-
