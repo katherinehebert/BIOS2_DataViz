@@ -1,0 +1,54 @@
+---
+title: "BIOS² Data Visualization Training"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Welcome!<br>
+<br>
+This page contains materials for the BIOS² Data Visualization Training developed and delivered by Alex Arkilanian and Katherine Hébert.
+
+## Interactive example
+
+```{r interactive-setup, echo=FALSE, message=FALSE, warning=FALSE}
+# set-up & data manipulation ---------------------------------------------------
+
+# load packages
+library(ggplot2) # for plots, built layer by layer
+library(dplyr) # for data manipulation
+library(magrittr) # for piping
+library(plotly) # interactive plots
+
+# set ggplot theme
+theme_set(theme_classic() +
+            theme(axis.title = element_text(size = 11, face = "bold"),
+                  axis.text = element_text(size = 11),
+                  plot.title = element_text(size = 13, face = "bold"),
+                  legend.title = element_text(size = 11, face = "bold"),
+                  legend.text = element_text(size = 10)))
+
+# import data
+# more info on this dataset: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-07-28/readme.md
+penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv')
+
+# get some nice colours from viridis (magma)
+sp_cols <- viridis::viridis_pal(option = "magma")(5)[2:4]
+```
+
+```{r interactive-plot, echo = FALSE, warning = FALSE}
+p <- na.omit(penguins) %>%
+  ggplot(aes(y = bill_length_mm, 
+             x = bill_depth_mm, 
+             col = log(body_mass_g))) +
+  geom_point(size = 2, alpha = .7) + 
+  facet_wrap(~ species) +
+  labs(x = "Bill depth (mm)", y = "Bill length (mm)", col = "Body mass (g)") +
+  scale_color_viridis_c(option = "magma", end = .9, direction = -1) +
+  theme_linedraw() + theme(panel.grid = element_blank()) # making the panels prettier
+p <- ggplotly(p)
+p
+```
+
