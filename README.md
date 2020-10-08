@@ -11,6 +11,6 @@ The training covers the general principles of visualization and graphic design, 
 
 ## Training material
 
-* [Example figures (interactive)](https://katherinehebert.github.io/BIOS2_DataViz/)<br>
-* [Annotated resource library](https://github.com/katherinehebert/BIOS2_DataViz/tree/master/docs)<br>
+* <a href = "https://raw.githubusercontent.com/katherinehebert/BIOS2_DataViz/master/interactive_examples.html" download>=Download example figures (interactive)</a>
+* [Annotated resource library](https://katherinehebert.github.io/BIOS2_DataViz/)<br>
 * [Scripts to create example figures](https://github.com/katherinehebert/BIOS2_DataViz/tree/master/scripts)<br>
