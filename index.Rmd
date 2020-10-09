@@ -40,7 +40,8 @@ Weissgerber TL, Garovic VD, Savic M, Winham SJ, Milic NM (2016) designed an inte
 Research that is being done about how to visualize uncertainty in data visualizations.
 Marx, V. Nat Methods 10, 613–615 (2013). [https://doi.org/10.1038/nmeth.2530](https://doi.org/10.1038/nmeth.2530)
 
-
+[**Data visualization standards**](https://xdgov.github.io/data-design-standards/)
+Collection of guidance and resources to help create better data visualizations with less effort.
 
 ***
 
