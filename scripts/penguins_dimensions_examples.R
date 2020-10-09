@@ -21,10 +21,55 @@ theme_set(theme_classic() +
 # more info on this dataset: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-07-28/readme.md
 penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv')
 
-# 1. Ineffective combinations: Luminance & shading -----------------------------
-
 # get some nice colours from viridis (magma)
 sp_cols <- viridis::viridis_pal(option = "magma")(5)[2:4]
+
+
+#### Day 1 ####
+
+# 1. Similarity
+
+ggplot(penguins) +
+  geom_point(aes(y = bill_length_mm, x = bill_depth_mm, col = species), size = 2.5) +
+  labs(x = "Bill depth (mm)", y = "Bill length (mm)", col = "Species") + # labels
+  scale_color_manual(values = sp_cols) # sets the colour scale we created above 
+ggsave("figures/penguins_similarity.png", width = 6, height = 3, units = "in")
+
+# 2. Proximity
+
+df <- penguins %>% group_by(sex, species) %>% 
+  summarise(mean_mass = mean(body_mass_g, na.rm = TRUE)) %>% na.omit() 
+ggplot(df) +
+  geom_bar(aes(y = mean_mass, x = species, fill = sex), 
+           position = "dodge", stat = "identity") +
+  labs(x = "Species", y = "Mean body mass (g)", col = "Sex") + # labels
+  scale_fill_manual(values = sp_cols) # sets the colour scale we created above
+ggsave("figures/penguins_proximity.png", width = 6, height = 3, units = "in")
+
+# 3. Enclosure (Ellipses over a fake PCA)
+ggplot(data = penguins, 
+       aes(y = bill_length_mm, x = bill_depth_mm)) +
+  geom_point(size = 2.1, col = "grey30") +
+  stat_ellipse(aes(col = species), lwd = .7) +
+  labs(x = "PCA1", y = "PCA2", col = "Species") + # labels
+  scale_color_manual(values = sp_cols) + # sets the colour scale we created above
+  theme(axis.text = element_blank(), axis.ticks = element_blank())
+ggsave("figures/penguins_enclosure.png", width = 6, height = 3, units = "in")
+
+# 4. Mismatched combination of principles
+temp_palette <- rev(c(sp_cols, "#1f78b4", "#33a02c"))
+ggplot(data = penguins, 
+       aes(y = bill_length_mm, x = bill_depth_mm)) +
+  geom_point(aes(col = sex), size = 2.1) +
+  stat_ellipse(aes(col = species), lwd = .7) +
+  labs(x = "Bill depth (mm)", y = "Bill length (mm)", col = "?") + # labels
+  scale_color_manual(values = temp_palette) # sets the colour scale we created above
+ggsave("figures/penguins_mismatchedgestalt.png", width = 6, height = 3, units = "in")
+
+#### Day 2 ####
+
+# 1. Ineffective combinations: Luminance & shading -----------------------------
+
 
 # create the plot
 ggplot(penguins) +
