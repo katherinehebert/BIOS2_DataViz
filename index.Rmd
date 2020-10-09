@@ -33,6 +33,12 @@ An accessible primer on how to create effective graphics from data using R (main
 [**Data Science Design (Chapter 6: Visualizing Data)**](https://link.springer.com/content/pdf/10.1007%2F978-3-319-55444-0.pdf)<br>
 Covers the principles that make standard plot designs work, show how they can be misleading if not properly used, and develop a sense of when graphs might be lying, and how to construct better ones.
 
+[**Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods**](https://www.jstor.org/stable/2288400)<br>
+Cleveland, William S., and Robert McGill. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” Journal of the American Statistical Association, vol. 79, no. 387, 1984, pp. 531–554. JSTOR, www.jstor.org/stable/2288400. Accessed 9 Oct. 2020.
+
+[**Graphical Perception and Graphical Methods for Analyzing Scientific Data**](10.1126/science.229.4716.828)<br>
+Cleveland, William S., and Robert McGill. "Graphical perception and graphical methods for analyzing scientific data." Science 229.4716 (1985): 828-833.
+
 [**From Static to Interactive: Transforming Data Visualization to Improve Transparency**](https://doi.org/10.1371/journal.pbio.1002484)<br>
 Weissgerber TL, Garovic VD, Savic M, Winham SJ, Milic NM (2016) designed an interactive line graph that demonstrates how dynamic alternatives to static graphics for small sample size studies allow for additional exploration of empirical datasets. This [simple, free, web-based tool](http://statistika.mfub.bg.ac.rs/interactive-graph/) demonstrates the overall concept and may promote widespread use of interactive graphics.
 
