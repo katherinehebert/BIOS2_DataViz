@@ -9,7 +9,7 @@ output:
       collapsed: false
       smooth_scroll: false
     number_sections: true
-    theme: "lumen"
+    theme: "spacelab"
 ---
 
 ```{r setup, include=FALSE}
