@@ -66,10 +66,11 @@ ggplot(data = penguins,
   scale_color_manual(values = temp_palette) # sets the colour scale we created above
 ggsave("figures/penguins_mismatchedgestalt.png", width = 6, height = 3, units = "in")
 
+
+
 #### Day 2 ####
 
 # 1. Ineffective combinations: Luminance & shading -----------------------------
-
 
 # create the plot
 ggplot(penguins) +
@@ -112,14 +113,14 @@ ggplot(na.omit(penguins)) +
 ggsave("figures/penguins_5dimensions.png", width = 7, height = 4, units = "in")
 
 
-# 4. Facets -------------------------------------------------------------------
+# 4. Panels -------------------------------------------------------------------
 
 ggplot(na.omit(penguins)) +
   geom_point(aes(y = bill_length_mm, # dimension 1: position along y scale
                  x = bill_depth_mm, # dimension 2: position along x scale
                  col = log(body_mass_g)), # dimension 3: hue
              alpha = .7, size = 2) + 
-  facet_wrap(~ species) + # dimention 4: species!
+  facet_wrap(~ species) + # dimension 4: species!
   # this will create a separate panel for each species
   # note: this also automatically uses the same axes for all panels! If you want 
   # axes to vary between panels, use the argument scales = "free"
